@@ -303,3 +303,120 @@ for col, prod in zip(lst_prod_cols, lst_products):
 
 #### Fruits
 
+<img width="797" alt="20240221112403" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/544da2d7-9555-48b2-9af0-f196ad5d2df9">
+
+#### Meats
+
+<img width="796" alt="20240221112439" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/fd88d37b-2184-4583-a823-6535b33cd215">
+
+#### Fish
+
+<img width="797" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/2b01fa8c-7ef2-45a0-bcc4-a0e98d0f4ab7">
+
+#### Sweets
+
+<img width="796" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/fb789d32-9cac-42e6-a63c-12750ac1859c">
+
+#### Gold
+
+<img width="797" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/8eed14af-2399-4f59-9721-b1e61e0607cf">
+
+#### All Products
+
+<img width="795" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/00813651-c494-421c-9c29-87c7269c05d4">
+
+### Income VS Education level
+
+<img width="798" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/33b492b2-6cbc-437e-afe7-06c715eb2192">
+
+### Income VS Status marital
+
+<img width="799" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/576198e1-2571-4ce0-a0db-c598fbde0475">
+
+### Income VS Birth year & Education level
+
+<img width="1006" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/9fc08d43-2715-4ee1-9d8e-94f42042ef29">
+
+### Evolution of Income VS Birth year
+
+<img width="997" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/df68915c-7e92-4b67-b25d-fbcb9df3f09d">
+
+## Test d'hypothèse pour vérifier certaines dynamiques
+
+### Anova Statut marital VS Expenses
+
+```python
+## Anova entre le statut marital et le montant total des dépenses
+from scipy.stats import f_oneway
+
+# Créer une liste de groupes de données
+groupes = []
+for niveau, groupe_data in df_10.groupby('Marital_Status')['MntAllProducts']:
+    groupes.append(groupe_data)
+
+# Effectuer l'ANOVA
+resultats_anova = f_oneway(*groupes)
+
+# Afficher les résultats
+print("Statistique de test F :", resultats_anova.statistic)
+print("Valeur p :", resultats_anova.pvalue)
+
+# Interprétation des résultats
+if resultats_anova.pvalue < 0.05:
+    print("Il y a une influence significative du statut marital sur le montant total des dépenses.")
+else:
+    print("Il n'y a pas d'influence significative du statut marital sur le montant total des dépenses.")
+```
+<img width="789" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/04e1cd35-bf13-4064-a86c-51bf3159f835">
+
+### Anova Education level VS Expenses
+
+```python
+## Anova entre le niveau d'éducation et le montant total des dépenses
+from scipy.stats import f_oneway
+
+# Créer une liste de groupes de données
+groupes = []
+for niveau, groupe_data in df_10.groupby('Education')['MntAllProducts']:
+    groupes.append(groupe_data)
+
+# Effectuer l'ANOVA
+resultats_anova = f_oneway(*groupes)
+
+# Afficher les résultats
+print("Statistique de test F :", resultats_anova.statistic)
+print("Valeur p :", resultats_anova.pvalue)
+
+# Interprétation des résultats
+if resultats_anova.pvalue < 0.05:
+    print("Il y a une influence significative du niveau d'éducation sur le montant total des dépenses.")
+else:
+    print("Il n'y a pas d'influence significative du niveau d'éducation sur le montant total des dépenses.")
+```
+<img width="794" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/a2d953c0-8ec9-4b5f-ab0b-2665fbc1c0c3">
+
+### Anova Nbr d'enfants vs Expenses
+
+```python
+## Anova entre le nombre d'enfants et le montant total des dépenses
+from scipy.stats import f_oneway
+
+# Créer une liste de groupes de données
+groupes = []
+for niveau, groupe_data in df_10.groupby('TotalChildHome')['MntAllProducts']:
+    groupes.append(groupe_data)
+
+# Effectuer l'ANOVA
+resultats_anova = f_oneway(*groupes)
+
+# Afficher les résultats
+print("Statistique de test F :", resultats_anova.statistic)
+print("Valeur p :", resultats_anova.pvalue)
+
+# Interprétation des résultats
+if resultats_anova.pvalue < 0.05:
+    print("Il y a une influence significative du nombre total d'enfants sur le montant total des dépenses.")
+else:
+    print("Il n'y a pas d'influence significative du nombre total d'enfants sur le montant total des dépenses.")
+```
+![image](https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/cc1f2c20-26c4-4fdf-8552-d7defe35c9b6)
