@@ -421,4 +421,8 @@ else:
 ```
 ![image](https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/cc1f2c20-26c4-4fdf-8552-d7defe35c9b6)
 
-# Clustering
+# Clustering :
+
+Utilisation de la méthode Elbow pour trouvé le nbr de clusters idéal
+
+
