@@ -238,3 +238,68 @@ plt.xticks(rotation=45)  # Rotation des étiquettes de l'axe x pour une meilleur
 plt.show()
 ```
 <img width="694" alt="20240221110246" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/634475a5-f9ad-4780-8ffe-d99c65e500be">
+
+## Analyses multivariées :
+
+### Produits consommés par niveau d'éducation
+
+```python
+# Liste des colonnes par type de produit
+lst_prod_cols = ['MntWines', 'MntFruits', 'MntMeatProducts', 'MntFishProducts',
+                 'MntSweetProducts', 'MntGoldProds', 'MntAllProducts']
+lst_products = ['wines', 'Fruits', 'meat', 'fish',
+                 'sweet', 'gold', 'all products']
+
+for col, prod in zip(lst_prod_cols, lst_products):
+  fig_violin = violin_plot(data_frame=df_8, col_x=col, col_y='Education',
+                           title=f'Amount spent on {prod} depending on Education level',
+                           height=500, width=1000)
+  fig_violin.show()
+  print()
+```
+
+#### Wines
+
+<img width="998" alt="20240221110946" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/ac7c3e70-c7e4-4729-b17b-36a9bb1e116f">
+
+#### Fruits
+
+<img width="999" alt="20240221111042" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/8e10e13b-3a6c-47af-b87e-dd18c84c8552">
+
+#### Meats
+
+<img width="999" alt="20240221111135" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/77a4af53-551c-4cce-8d90-56d7533d471e">
+
+#### Fish
+
+<img width="1000" alt="20240221111208" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/88a07291-c6cb-40c0-8ccd-637cc8d57620">
+
+#### Sweets
+
+<img width="994" alt="20240221111252" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/9424bbbf-6b2a-455a-9090-ef16c5c9a6f9">
+
+#### Gold
+
+<img width="996" alt="20240221111455" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/e5573618-572a-47d1-bb37-b8fc49b6b8c1">
+
+#### All Products
+
+<img width="999" alt="20240221111533" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/6991092b-f21d-4471-a94d-ecafe0ccf418">
+
+### Produits consommés par status marital
+
+```python
+for col, prod in zip(lst_prod_cols, lst_products):
+  fig_violin = violin_plot(data_frame=df_8, col_x=col, col_y='Marital_Status',
+                           title=f'Amont spent on {prod} depending on marital status',
+                           height=500)
+  fig_violin.show()
+  print()
+```
+
+#### Wines
+
+<img width="801" alt="20240221111802" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/f7b0bd87-a5bd-44e6-ad11-c917553bc148">
+
+#### Fruits
+
