@@ -169,3 +169,72 @@ plt.title("Distribution des customers par situation relationnelle\n",fontsize=14
 plt.figure(figsize=(8,8))
 ```
 <img width="573" alt="20240221105200" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/bd05d363-24bd-4414-8edd-e35211aaa496">
+
+### Income
+
+- Ici, pas de regroupement nécessaire pour analyser la donnée
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(16, 8))
+
+sns.distplot(df_5["Income"], color='red', ax=axes[0])
+axes[0].set_title('Distribution de Income')
+
+df_5["Income"].plot.box(color='red', ax=axes[1])
+axes[1].set_title('Boîte à moustaches de Income')
+
+plt.tight_layout()
+plt.show()
+```
+<img width="1318" alt="20240221105447" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/c9fe4f9d-bc66-406d-9bc7-928aa5b671b2">
+
+- On constate la présence d'un outlier dans la colonne Income que nous allons supprimer directement
+```python
+# Suppression des outliers de Income
+df_6 = df_5.copy()
+df_6.loc[df_6["Income"].idxmax()]
+df_6.drop(df_6["Income"].idxmax(), inplace=True)
+```
+
+### Age
+
+- Ici de la même façon que pour pour l'income, nous allons vérifier la présence d'outliers avant de produire le visuel d'analyse de la variable
+
+```python
+# Calcul de l'âge des clients
+df_7 = df_6.copy()
+df_7['Age']= 2024 - df_7['Year_Birth']
+
+#Distribution de l'age
+plt.figure(figsize=(4,3))
+plt.boxplot(df_7["Age"],vert=False)
+plt.title("Distribution de la colonne Age")
+plt.xlabel("Age")
+plt.show()
+```
+<img width="348" alt="20240221110026" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/7956cc7a-9a04-4dac-a41d-02f13f047472">
+
+- On constate également la présence d'outliers dans la colonne âge et nous allons donc les traiter afin d'assurer une cohérence dans nos données puis faire un regroupement par tranche d'âge afin d'obtenir un visuel plus facile à analyser
+
+```python
+# Suppression des clients de plus de 90ans (ceux de 120 ans doivent être décédés)
+df_7 = df_7[(df_7['Age'] >= 20) & (df_7['Age'] <= 90)]
+
+bins = range(20, df_7['Age'].max() + 10, 10)
+
+# Création libellé perso
+labels = [f"{i}-{i+10} ans" for i in range(20, df_7['Age'].max(), 10)]
+
+# Utiliser pd.cut() avec les bins et les libellés personnalisés
+df_7['Age_group'] = pd.cut(df_7['Age'], bins, right=False, labels=labels)
+
+# Répartition des clients selon leur age
+plt.figure(figsize=(8, 6))
+df_7["Age_group"].value_counts().plot(kind='bar')
+plt.title("Distribution des Ages des clients")
+plt.xlabel("Age")
+plt.ylabel("Nombre de clients")
+plt.xticks(rotation=45)  # Rotation des étiquettes de l'axe x pour une meilleure lisibilité
+plt.show()
+```
+<img width="694" alt="20240221110246" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/634475a5-f9ad-4780-8ffe-d99c65e500be">
