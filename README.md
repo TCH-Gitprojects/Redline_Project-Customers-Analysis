@@ -420,3 +420,5 @@ else:
     print("Il n'y a pas d'influence significative du nombre total d'enfants sur le montant total des dépenses.")
 ```
 ![image](https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/cc1f2c20-26c4-4fdf-8552-d7defe35c9b6)
+
+# Clustering
