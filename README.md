@@ -81,3 +81,38 @@ df_2.duplicated(subset=subset).value_counts()
 ![20240221102138](https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/40fdce84-cc7c-469e-888f-9d2e33e1b24d)
 - Plus de doublons suite au travail de nettoyage
 
+## Modifications/Suppressions des valeurs absurdes
+### Remplacement des valeurs absurdes de la colonne Marital Status : 3 valeurs 'Alone' (seul) par 'Single' (célibataire), et suppression des 2 valeurs 'Absurd' et 'YOLO' qui sont négligeables.
+```python
+# Remplacement des valeurs 'Alone' par 'Single'
+df_3 = df_2.copy()
+mask_3 = (df_3.Marital_Status == 'Alone')
+df_3.loc[mask_3, 'Marital_Status'] = 'Single'
+
+# Suppression des lignes avec valeurs de Marial_Status 'Absurd' et 'YOLO'
+mask_3 = (df_3.Marital_Status == 'Absurd') | (df_3.Marital_Status == 'YOLO')
+# df_3[mask_3].index
+df_3.drop(index=df_3[mask_3].index, inplace = True)
+```
+### Suppressions des colonnes inutiles (une seule valeur)
+```python
+df_3=df_3.drop(columns=["Z_CostContact", "Z_Revenue"],axis=1)
+```
+
+## Création de variables groupées et analyses :
+
+- Nous avons choisi de regrouper les colonnes Kidhome et Teenhome en une seule variable nommée Kids
+
+```python
+df_4 = df_3.copy()
+df_4['Kids'] = df_4['Kidhome'] + df_4['Teenhome']
+
+# Camembert répartition du nb d'enfants dans le foyer
+plt.figure(figsize=(4, 4))
+df_4['Kids'].value_counts().plot(kind='pie', autopct='%1.1f%%', startangle=140)
+plt.title("Répartition du nombre de clients en fonction du nombre d'enfants du foyer")
+plt.ylabel('')
+plt.axis('equal')
+plt.show()
+```
+<img width="659" alt="20240221103747" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/07a52417-5733-4890-ad50-59cc77805e31">
