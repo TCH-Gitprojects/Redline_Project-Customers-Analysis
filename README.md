@@ -101,6 +101,8 @@ df_3=df_3.drop(columns=["Z_CostContact", "Z_Revenue"],axis=1)
 
 ## Création de variables groupées et analyses :
 
+### Kids :
+
 - Nous avons choisi de regrouper les colonnes Kidhome et Teenhome en une seule variable nommée Kids
 
 ```python
@@ -116,3 +118,54 @@ plt.axis('equal')
 plt.show()
 ```
 <img width="659" alt="20240221103747" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/07a52417-5733-4890-ad50-59cc77805e31">
+
+### Expenses :
+
+- Même logique utilisée pour regrouper les colonnes Mnt... en une seule et unique variable Expenses
+
+```python
+df_4['Expenses'] = df_4['MntWines'] + df_4['MntFruits'] + df_4['MntMeatProducts'] + df_4['MntFishProducts'] + df_4['MntSweetProducts'] + df_4['MntGoldProds']
+
+fig, axes = plt.subplots(1, 2, figsize=(16, 8))
+
+sns.distplot(df_4["Expenses"], color='red', ax=axes[0])
+axes[0].set_title('Distribution de Expenses')
+
+df_4["Expenses"].plot.box(color='red', ax=axes[1])
+axes[1].set_title('Boîte à moustaches de Expenses')
+
+plt.tight_layout()
+plt.show()
+```
+<img width="1317" alt="20240221104320" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/2532c315-5012-488b-b6c1-c24e7110d1cf">
+
+### Nbr de visites par mois sur le site VS achats par mois sur le site
+
+- Ici, pas de regroupement de colonnes mais une comparaison intéressante afin de vérifier si il existe une corrélation entre ces deux variables
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(16, 8))
+
+sns.distplot(df_4["NumWebVisitsMonth"], color='red', ax=axes[0])
+axes[0].set_title('Distribution du nbr de visites sur le site par mois')
+
+sns.distplot(df_4["NumWebPurchases"], color='red', ax=axes[1])
+axes[1].set_title('Distribution du nbr dachats sur le site par mois')
+```
+<img width="1320" alt="20240221104721" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/4781d5d9-b71d-4668-ab6a-cb2992fd9764">
+
+### Situations familiales
+
+- Par soucis de logique, nous créeons ici uniquement deux catégories : Single ou Relationship afin d'apprécier plus facilement la répartition de la clientèle
+
+```python
+df_5 = df_4.copy()
+df_5['Relation_Status'] = df_5['Marital_Status']
+df_5['Relation_Status'] = df_5['Relation_Status'].replace(['Married', 'Together'],'Relationship')
+df_5['Relation_Status'] = df_5['Relation_Status'].replace(['Divorced', 'Widow'],'Single')
+
+df_5['Relation_Status'].value_counts().plot(kind='bar',color = 'red',edgecolor = "black",linewidth = 1)
+plt.title("Distribution des customers par situation relationnelle\n",fontsize=14)
+plt.figure(figsize=(8,8))
+```
+<img width="573" alt="20240221105200" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/bd05d363-24bd-4414-8edd-e35211aaa496">
