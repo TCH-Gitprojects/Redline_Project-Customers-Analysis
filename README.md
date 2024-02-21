@@ -423,6 +423,6 @@ else:
 
 # Clustering :
 
-Utilisation de la méthode Elbow pour trouvé le nbr de clusters idéal
+Utilisation de la méthode Elbow pour trouver le nbr de clusters idéal
 
 
