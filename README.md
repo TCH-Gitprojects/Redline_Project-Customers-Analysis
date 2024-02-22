@@ -669,7 +669,10 @@ df_2_clusters_ahc[['cluster', 'cluster_ahc']].value_counts()
 ```
 ![image](https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/14992afb-828a-4586-b6ee-30e49eda3309)
 
-# Fin du projet W6/7
+<div align="center">
+  <center><h1>End of Redline Project - Customers Analysis</h1></center>
+</div>
+
 ### Merci à tous pour votre lecture
 #### Annexes :
 - Lien du Notebook Colab : <https://colab.research.google.com/drive/1G23qqYWC1LCKSPIH7EKFJKsiiKYSpOcR?usp=sharing#scrollTo=_EoJ8MrbtBzi>
