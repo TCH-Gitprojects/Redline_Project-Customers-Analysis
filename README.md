@@ -615,6 +615,9 @@ hist_nb_store_purchases_cluster.show()
 #### Niveau d'étude
 <img width="799" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/690d7cff-6573-4dc7-9fe5-27be2cbbf050">
 
+#### Income vs Expenses
+<img width="799" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/bbf15e66-f970-40c0-8923-ef5e59d0466c">
+
 ## Hierarchical clustering
 
 - Le principe ici est de tracer un <b>"dendrogram"</b> (<i>figure avec une structure en arbre montrant le regroupement de clusters</i>) pour visualiser les clusters, puis de trouver visuellement le nombre de clusters optimal.
