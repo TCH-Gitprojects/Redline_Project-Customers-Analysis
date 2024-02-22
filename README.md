@@ -680,6 +680,6 @@ df_2_clusters_ahc[['cluster', 'cluster_ahc']].value_counts()
 - Charlotte - <https://github.com/Charlottedelignieres>
 - Cyrielle - <https://github.com/cyrielleriffaud>
 - Tony - <https://github.com/TCH-Gitprojects>
-- Julien - 
+- Julien - <https://github.com/Miche5967>
 
 
