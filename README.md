@@ -498,9 +498,9 @@ X_preprocessed = pd.concat(
 X_preprocessed
 ```
 
-## Elbow method
+## Recherche du meilleur nombre de clusters k
 
-- Recherche du meilleur nombre de clusters k
+### Elbow method
 
 ```python
 # Liste des "inerties"
@@ -516,11 +516,97 @@ for k in K:
   model_KM.fit(X_preprocessed)
   # Ajout de l'inertie de ce modèle à la liste des inerties
   lst_inertias.append(model_KM.inertia_)
-
-# Affichage du graphique de la méthode 'Elbow'
-sns.lineplot(x = K, y = lst_inertias)
-plt.xlabel('k (nombre de clusters)')
-plt.ylabel('Inertie')
-plt.title("Méthode Elbow Method avec l'inertie")
-plt.show()
 ```
+<img width="603" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/ad74690a-a63a-4cd7-b160-d64805c1b7d1">
+
+### Silhouette method
+
+```python
+# Liste des silhouette_score
+lst_silhouette_score = []
+
+# Liste des valeurs de k (nombre de clusters)
+K_s = range(2, 21)
+
+# Boucle sur le nombre de clusters
+for k in K_s:
+  # Création et entraînement du modèle
+  model_KM_s = KMeans(n_clusters=k, random_state = 42)
+  model_KM_s.fit(X_preprocessed)
+  print(f'- k = {k} => silhouette = {silhouette_score(X_preprocessed, model_KM_s.labels_)}')
+  lst_silhouette_score.append(silhouette_score(X_preprocessed, model_KM_s.labels_))
+```
+<img width="600" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/6e847ff6-04b1-43ad-8d54-934b34feef7f">
+
+#### Le nombre de clusters idéals est 2
+
+## Comparaisons des 2 clusters
+
+### Revenus
+
+```python
+hist_income_cluster = hist_plot(
+    data_frame=df_2_clusters, col_x='Income',
+    title='Histogram of income per cluster', height=450, width=800)
+hist_income_cluster.show()
+```
+<img width="802" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/f6ed921b-d608-47b4-8c66-25bddd028449">
+
+### Dépenses totales
+```python
+hist_total_amount_cluster = hist_plot(
+    data_frame=df_2_clusters, col_x='MntAllProducts',
+    title='Histogram of total amount spent per cluster', height=450, width=800)
+hist_total_amount_cluster.show()
+```
+<img width="800" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/970bae0e-00b9-4a23-a495-88710e0d8532">
+
+### Nombre total d'enfants et ados
+```python
+hist_total_kids_cluster = hist_plot(
+    data_frame=df_2_clusters, col_x='TotalChildHome',
+    title='Histogram of total childs per cluster', height=450, width=800)
+hist_total_kids_cluster.show()
+```
+<img width="797" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/b35efe3a-2222-4e22-b5e3-55f5678023be">
+
+### Age
+```python
+hist_age_cluster = hist_plot(
+    data_frame=df_2_clusters, col_x='Age',
+    title='Histogram of age per cluster', height=450, width=800)
+hist_age_cluster.show()
+```
+<img width="801" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/efc928cb-8a94-4377-a2de-f81497c744e5">
+
+### Nombre de visites web
+```python
+hist_nb_visits_web_cluster = hist_plot(
+    data_frame=df_2_clusters, col_x='NumWebVisitsMonth',
+    title='Histogram of number of monthly visits of website per cluster', height=450, width=800)
+hist_nb_visits_web_cluster.show()
+```
+<img width="802" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/df7f5125-fc95-434c-83f5-1ea2c6d230d5">
+
+### Nombre d'achats par catalogue
+```python
+hist_nb_catalog_purchases_cluster = hist_plot(
+    data_frame=df_2_clusters, col_x='NumCatalogPurchases',
+    title='Histogram of number of purchases by catalogue per cluster', height=450, width=800)
+hist_nb_catalog_purchases_cluster.show()
+```
+<img width="800" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/29284172-1e78-4183-b698-6298f5b42f9b">
+
+### Nombre d'achats en magasin
+```python
+hist_nb_store_purchases_cluster = hist_plot(
+    data_frame=df_2_clusters, col_x='NumStorePurchases',
+    title='Histogram of number of purchases in store per cluster', height=450, width=800)
+hist_nb_store_purchases_cluster.show()
+```
+<img width="797" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/991af23e-19d0-4813-a3fd-37fbfb1de45d">
+
+### Niveau d'étude
+<img width="799" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/690d7cff-6573-4dc7-9fe5-27be2cbbf050">
+
+
