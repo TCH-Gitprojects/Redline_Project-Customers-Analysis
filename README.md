@@ -678,7 +678,7 @@ df_2_clusters_ahc[['cluster', 'cluster_ahc']].value_counts()
 - Lien du Notebook Colab : <https://colab.research.google.com/drive/1G23qqYWC1LCKSPIH7EKFJKsiiKYSpOcR?usp=sharing#scrollTo=_EoJ8MrbtBzi>
 #### Projet réalisé par :
 - Charlotte -
-- Cyrielle -
+- Cyrielle - <https://github.com/cyrielleriffaud>
 - Tony - <https://github.com/TCH-Gitprojects>
 - Julien - 
 
