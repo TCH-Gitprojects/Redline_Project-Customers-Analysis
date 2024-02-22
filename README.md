@@ -423,6 +423,104 @@ else:
 
 # Clustering :
 
-Utilisation de la méthode Elbow pour trouver le nbr de clusters idéal
+## Préparation des données pour ML 
 
+- Ajout de la colonne "Date_enrol" pour gérer la date d'enrollement du client
+```python
+df_clustering = df_10.copy()
 
+# Reconversion de Dt_Customer en format 'datetime'
+df_clustering.Dt_Customer = df_clustering.Dt_Customer.astype('datetime64')
+
+# Ajout d'une colonne 'Date_enrol' pour avoir la date en numérique sous la form
+# 'annéemoisjour' (aaammjj)
+df_clustering['Date_enrol'] = df_clustering.Dt_Customer.dt.strftime('%Y') + df_clustering.Dt_Customer.dt.strftime('%m') + df_clustering.Dt_Customer.dt.strftime('%d')
+# Conversion de cette colonne en 'integer'
+df_clustering.Date_enrol = df_clustering.Date_enrol.astype(int)
+
+# Conversion des colonnes de type 'object' en type 'category'
+for column in df_clustering.select_dtypes(include='object').columns:
+  df_clustering[column] = df_clustering[column].astype('category')
+
+# Affichage des infos
+df_clustering.info()
+```
+
+- Standardisation des colonnes numériques
+```python
+# Création d'un StandardScaler
+standardScaler = StandardScaler()
+
+# Entraînement du scaler à partir des colonnes numériques
+standardScaler.fit(X_numerical_columns)
+
+# Transformation des colonnes numériques du jeu d'entraînement
+X_numerical_columns_scaled = pd.DataFrame(
+    data=standardScaler.transform(X_numerical_columns),
+    columns=X_numerical_columns.columns)
+
+# Affichage pour vérification
+X_numerical_columns_scaled.head()
+```
+
+- Encodage des colonnes catégorielles
+```python
+# Création d'un OneHotEncoder
+oneHotEncoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+
+# Entraînement de l'encodeur à partir des colonnes de catégories
+oneHotEncoder.fit(X_categorical_columns)
+
+# Transformation (encodage) des colonnes de catégories du jeu d'entraînement
+# dans un DataFrame
+X_categorical_columns_encoded = pd.DataFrame(
+    oneHotEncoder.transform(X_categorical_columns),
+    columns=[value for category in oneHotEncoder.categories_ for
+             value in category])
+
+# Affichage pour vérification
+X_categorical_columns_encoded.head()
+```
+
+- Création d'un Dataframe preprocessed
+```python
+# Création d'un DataFrame contenant les colonnes numériques et
+# les colonnes catégorielles encodées, avec indices remis à zéro
+X_preprocessed = pd.concat(
+    objs=[
+        X_numerical_columns_scaled,
+        X_categorical_columns_encoded
+    ],
+    axis=1
+)
+
+# Affichage du DataFrame pour vérification
+X_preprocessed
+```
+
+## Elbow method
+
+- Recherche du meilleur nombre de clusters k
+
+```python
+# Liste des "inerties"
+lst_inertias = []
+
+# Liste des valeurs de k (nombre de clusters)
+K = range(1, 31)
+
+# Boucle sur le nombre de clusters
+for k in K:
+  # Création et entraînement du modèle
+  model_KM = KMeans(n_clusters = k, random_state = 42)
+  model_KM.fit(X_preprocessed)
+  # Ajout de l'inertie de ce modèle à la liste des inerties
+  lst_inertias.append(model_KM.inertia_)
+
+# Affichage du graphique de la méthode 'Elbow'
+sns.lineplot(x = K, y = lst_inertias)
+plt.xlabel('k (nombre de clusters)')
+plt.ylabel('Inertie')
+plt.title("Méthode Elbow Method avec l'inertie")
+plt.show()
+```
