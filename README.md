@@ -423,6 +423,10 @@ else:
 
 # Clustering :
 
+## Rappel des corrélations du jeu de données
+
+<img width="1001" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/67963bae-e53d-424a-8148-336c3f6229ba">
+
 ## Préparation des données pour ML 
 
 - Ajout de la colonne "Date_enrol" pour gérer la date d'enrollement du client
@@ -498,9 +502,11 @@ X_preprocessed = pd.concat(
 X_preprocessed
 ```
 
-## Recherche du meilleur nombre de clusters k
+## K Means
 
-### Elbow method
+### Recherche du meilleur nombre de clusters k
+
+#### Elbow method
 
 ```python
 # Liste des "inerties"
@@ -519,7 +525,7 @@ for k in K:
 ```
 <img width="603" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/ad74690a-a63a-4cd7-b160-d64805c1b7d1">
 
-### Silhouette method
+#### Silhouette method
 
 ```python
 # Liste des silhouette_score
@@ -540,9 +546,9 @@ for k in K_s:
 
 #### Le nombre de clusters idéals est 2
 
-## Comparaisons des 2 clusters
+### Comparaisons des 2 clusters
 
-### Revenus
+#### Revenus
 
 ```python
 hist_income_cluster = hist_plot(
@@ -552,7 +558,7 @@ hist_income_cluster.show()
 ```
 <img width="802" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/f6ed921b-d608-47b4-8c66-25bddd028449">
 
-### Dépenses totales
+#### Dépenses totales
 ```python
 hist_total_amount_cluster = hist_plot(
     data_frame=df_2_clusters, col_x='MntAllProducts',
@@ -561,7 +567,7 @@ hist_total_amount_cluster.show()
 ```
 <img width="800" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/970bae0e-00b9-4a23-a495-88710e0d8532">
 
-### Nombre total d'enfants et ados
+#### Nombre total d'enfants et ados
 ```python
 hist_total_kids_cluster = hist_plot(
     data_frame=df_2_clusters, col_x='TotalChildHome',
@@ -570,7 +576,7 @@ hist_total_kids_cluster.show()
 ```
 <img width="797" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/b35efe3a-2222-4e22-b5e3-55f5678023be">
 
-### Age
+#### Age
 ```python
 hist_age_cluster = hist_plot(
     data_frame=df_2_clusters, col_x='Age',
@@ -579,7 +585,7 @@ hist_age_cluster.show()
 ```
 <img width="801" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/efc928cb-8a94-4377-a2de-f81497c744e5">
 
-### Nombre de visites web
+#### Nombre de visites web
 ```python
 hist_nb_visits_web_cluster = hist_plot(
     data_frame=df_2_clusters, col_x='NumWebVisitsMonth',
@@ -588,7 +594,7 @@ hist_nb_visits_web_cluster.show()
 ```
 <img width="802" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/df7f5125-fc95-434c-83f5-1ea2c6d230d5">
 
-### Nombre d'achats par catalogue
+#### Nombre d'achats par catalogue
 ```python
 hist_nb_catalog_purchases_cluster = hist_plot(
     data_frame=df_2_clusters, col_x='NumCatalogPurchases',
@@ -597,7 +603,7 @@ hist_nb_catalog_purchases_cluster.show()
 ```
 <img width="800" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/29284172-1e78-4183-b698-6298f5b42f9b">
 
-### Nombre d'achats en magasin
+#### Nombre d'achats en magasin
 ```python
 hist_nb_store_purchases_cluster = hist_plot(
     data_frame=df_2_clusters, col_x='NumStorePurchases',
@@ -606,7 +612,71 @@ hist_nb_store_purchases_cluster.show()
 ```
 <img width="797" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/991af23e-19d0-4813-a3fd-37fbfb1de45d">
 
-### Niveau d'étude
+#### Niveau d'étude
 <img width="799" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/690d7cff-6573-4dc7-9fe5-27be2cbbf050">
+
+## Hierarchical clustering
+
+- Le principe ici est de tracer un <b>"dendrogram"</b> (<i>figure avec une structure en arbre montrant le regroupement de clusters</i>) pour visualiser les clusters, puis de trouver visuellement le nombre de clusters optimal.
+Ensuite, on utilise un algorithme <b><i>AgglomerativeClustering</i></b>, avec ce nombre de clusters, pour définir à quel cluster appartient chaque point de données.
+
+### Dendrogram des clusters
+```python
+plt.figure(figsize=(12,5))
+plt.title('Dendrogram')
+plt.xlabel('Cluster size')
+plt.ylabel('Distance')
+
+clusters = shc.linkage(
+    y=X_preprocessed,
+    method='ward',
+    metric='euclidean'
+)
+shc.dendrogram(Z=clusters, p=60, truncate_mode='lastp', color_threshold=90)
+plt.axhline(y = 90, color = 'r', linestyle = '-')
+
+plt.show()
+```
+<img width="1006" alt="image" src="https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/e870103e-fee3-4dad-8117-d0fd8922e0ba">
+
+#### Interprétation
+- Pour choisir <b>le nombre de clusters optimal</b>, il faut regarder <b>la longueur des branches verticales qui représente la distance entre les clusters</b>. Ici, on peut voir que c'est pour <b>2 clusters</b> que cette distance est la plus importante. Cela semble donc confirmer que <b>le nombre optimal de clusters est 2</b>.
+
+### Agglomerative Hierarchical Clustering
+- Une fois ce nombre optimal de clusters connu, on applique un <b>clustering hiérarchique agglomératif</b> (<i>c'est-à-dire qui part du bas (des points) vers le haut</i>) pour définir le cluster auquel appartient chaque point.
+```python
+# Application de l'algo AgglomerativeClustering avec 2 clusters,
+# en reprenant les mêmes méthode et métrique que pour le tracé du dendrogram
+clustering_model = AgglomerativeClustering(n_clusters=2, affinity='euclidean',
+                                           linkage='ward')
+clustering_model.fit(X_preprocessed)
+# Affichage des clusters
+clustering_model.labels_
+
+df_2_clusters_ahc = df_2_clusters.copy()
+
+# Ajout de la colonne avec les nouveaux clusters
+df_2_clusters_ahc['cluster_ahc'] = clustering_model.labels_
+
+# Inversion des classes 0 et 1 pour plus de cohérence
+df_2_clusters_ahc['cluster_ahc'] = df_2_clusters_ahc['cluster_ahc'].apply(
+    lambda x: 1 if x == 0 else 0)
+df_2_clusters_ahc['cluster_ahc'] = df_2_clusters_ahc['cluster_ahc'].astype('category')
+df_2_clusters_ahc
+
+# Comparaison des clusters
+df_2_clusters_ahc[['cluster', 'cluster_ahc']].value_counts()
+```
+![image](https://github.com/TCH-Gitprojects/Redline_Project-Customers-Analysis/assets/127731574/14992afb-828a-4586-b6ee-30e49eda3309)
+
+# Fin du projet W6/7
+### Merci à tous pour votre lecture
+#### Annexes :
+- Lien du Notebook Colab : <https://colab.research.google.com/drive/1G23qqYWC1LCKSPIH7EKFJKsiiKYSpOcR?usp=sharing#scrollTo=_EoJ8MrbtBzi>
+#### Projet réalisé par :
+- Charlotte -
+- Cyrielle -
+- Tony - <https://github.com/TCH-Gitprojects>
+- Julien - 
 
 
